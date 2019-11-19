@@ -1,5 +1,8 @@
 {
   "name": "@bfrow-tech/paragraph",
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/bfrow-tech" 
+  },
   "version": "3.0.1",
   "keywords": [
     "codex editor",
