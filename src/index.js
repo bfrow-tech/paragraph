@@ -54,7 +54,7 @@ class Paragraph {
      * @type {string}
      */
     this._placeholder = config.placeholder ? config.placeholder : Paragraph.DEFAULT_PLACEHOLDER;
-    this._data = {};
+    this._data = this.normalizeData(data);
     this._element = this.drawView();
     /**
      * List of settings buttons
@@ -62,7 +62,26 @@ class Paragraph {
      */
     this.settingsButtons = [];
 
-    this.data = data;
+    this.data = this._data;
+  }
+
+    /**
+   * Normalize input data
+   * @param {ParagraphData} data
+   * @return {ParagraphData}
+   * @private
+   */
+  normalizeData(data) {
+    const newData = {};
+
+    if (typeof data !== 'object') {
+      data = {};
+    }
+
+    newData.text = data.text || '';
+    newData.align = data.align || this.defaultAlign.align;
+
+    return newData;
   }
 
   /**
@@ -259,9 +278,7 @@ class Paragraph {
    * @private
    */
   get data() {
-    let text = this._element.innerHTML;
-
-    this._data.text = text;
+    this._data.text = this._element.innerHTML;
     this._data.align = this.currentAlign.align;
 
     return this._data;
@@ -322,6 +339,7 @@ class Paragraph {
    * @private
    */
   set data(data) {
+    this._data = this.normalizeData(data);
     /**
      * If align is set and block in DOM
      * then replace it to a new block
